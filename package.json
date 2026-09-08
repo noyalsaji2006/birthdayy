@@ -1,0 +1,10 @@
+﻿{
+  "name": "fawziya-birthday-wish",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Birthday Wish Webpage for Fawziya",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

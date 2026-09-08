@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Happy Birthday, Fawziya | A Royal Celebration</title>
+  
+  <!-- Premium Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;600;700;800;900&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            serif: ['Cormorant Garamond', 'serif'],
+            cinzel: ['Cinzel', 'serif'],
+            script: ['Great Vibes', 'Alex Brush', 'cursive'],
+            greatVibes: ['Great Vibes', 'cursive'],
+            poppins: ['Poppins', 'sans-serif']
+          },
+          colors: {
+            gold: {
+              100: '#FFFDF0',
+              200: '#FBF2B7',
+              300: '#F4DE7C',
+              400: '#E6C347',
+              500: '#D4AF37',
+              600: '#AA820A',
+              700: '#7F5E00',
+              800: '#533C00',
+              900: '#2E2000',
+            },
+            champagne: '#F7E7CE',
+            velvet: '#0B0813',
+            plum: '#1A0E2E',
+            roseGold: '#B76E79',
+          },
+          animation: {
+            'float-gentle': 'floatGentle 6s ease-in-out infinite',
+            'shimmer': 'shimmer 4s linear infinite',
+            'pulse-soft': 'pulseSoft 3.5s ease-in-out infinite',
+            'glow-gold': 'glowGold 4s ease-in-out infinite alternate',
+            'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          },
+          keyframes: {
+            floatGentle: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            },
+            pulseSoft: {
+              '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+              '50%': { opacity: '0.7', transform: 'scale(1.03)' },
+            },
+            glowGold: {
+              '0%': { filter: 'drop-shadow(0 0 15px rgba(212, 175, 55, 0.25))' },
+              '100%': { filter: 'drop-shadow(0 0 40px rgba(212, 175, 55, 0.6))' },
+            },
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(24px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="relative min-h-screen bg-[#050505] text-[#FAF5FF] overflow-x-hidden selection:bg-gold-500 selection:text-slate-950">
+
+  <!-- =========================================================
+       VIEW 1: INTERACTIVE HEART TREE & LOVE BLAST FIREWORKS
+       ========================================================= -->
+  <div id="tree-view" class="view-screen active">
+    <!-- Ambient background glow layers matching Celebration theme -->
+    <div class="ambient-glow orb-1"></div>
+    <div class="ambient-glow orb-2"></div>
+    <div class="ambient-glow orb-3"></div>
+    <div class="ambient-glow orb-4"></div>
+
+    <!-- Main Animation Canvas (Tree, Blooming Leaves, Love Blast Fireworks) -->
+    <canvas id="mainCanvas"></canvas>
+
+    <!-- Start Screen Overlay -->
+    <div id="startScreen" class="start-overlay">
+      <div class="start-content">
+        <div class="crown-icon">👑</div>
+        <h1 class="start-title">A Special Celebration</h1>
+        <p class="start-subtitle">Crafted with love for an unforgettable birthday</p>
+        <button id="startBtn" class="luxury-btn">
+          <span class="btn-sparkle">✨</span>
+          <span class="btn-text">Click Me 💕 Birthday Queen</span>
+          <span class="btn-sparkle">✨</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Centered Majestic Happy Birthday Text & For You Button -->
+    <div id="birthdayGreeting" class="greeting-container hidden">
+      <div class="greeting-glow-aura" aria-hidden="true"></div>
+      <h1 class="greeting-title" id="greetingTitle" aria-label="Happy Birthday">
+        <span class="greeting-word">
+          <span class="letter" style="--i:0">H</span><span class="letter" style="--i:1">a</span><span class="letter" style="--i:2">p</span><span class="letter" style="--i:3">p</span><span class="letter" style="--i:4">y</span>
+        </span>
+        <span class="greeting-space">&nbsp;</span>
+        <span class="greeting-word">
+          <span class="letter" style="--i:5">B</span><span class="letter" style="--i:6">i</span><span class="letter" style="--i:7">r</span><span class="letter" style="--i:8">t</span><span class="letter" style="--i:9">h</span><span class="letter" style="--i:10">d</span><span class="letter" style="--i:11">a</span><span class="letter" style="--i:12">y</span>
+        </span>
+      </h1>
+      <div id="arrowBtnContainer" class="arrow-btn-container hidden">
+        <button id="arrowBtn" class="arrow-btn" aria-label="Open Special Birthday Page">
+          <span class="arrow-btn-text">For You</span>
+          <span class="arrow-icon">➔</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       VIEW 2: ROYAL CELEBRATION & HEARTFELT LETTER PAGE
+       ========================================================= -->
+  <div id="celebration-view" class="view-screen hidden">
+    
+    <!-- Cinematic Background Photo & Overlays -->
+    <div class="bg-photo-layer" aria-hidden="true"></div>
+    <div class="bg-gradient-overlay" aria-hidden="true"></div>
+
+    <!-- Interactive Starry Sky Background Canvas -->
+    <canvas id="stars-canvas" aria-hidden="true"></canvas>
+
+    <!-- Ambient Aurora Glow Orbs -->
+    <div class="aurora-orb w-[20rem] sm:w-[32rem] md:w-[44rem] h-[20rem] sm:h-[32rem] md:h-[44rem] bg-purple-900/35 top-2 left-1/2 -translate-x-1/2" aria-hidden="true"></div>
+    <div class="aurora-orb w-[14rem] sm:w-[24rem] md:w-[30rem] h-[14rem] sm:h-[24rem] md:h-[30rem] bg-amber-600/20 top-1/3 -left-10 sm:-left-20" aria-hidden="true"></div>
+    <div class="aurora-orb w-[14rem] sm:w-[24rem] md:w-[30rem] h-[14rem] sm:h-[24rem] md:h-[30rem] bg-rose-700/20 top-2/3 -right-10 sm:-right-20" aria-hidden="true"></div>
+
+    <!-- Floating Balloons Layer -->
+    <div id="balloon-layer" class="balloon-layer" aria-hidden="true"></div>
+
+
+
+    <!-- Main Centerpiece Wish Showcase -->
+    <main class="w-full max-w-2xl lg:max-w-3xl mx-auto px-3 sm:px-6 py-6 sm:py-10 md:py-14 relative z-20 flex-grow flex flex-col items-center justify-center space-y-4 sm:space-y-6 animate-fade-in-up">
+      
+      <!-- Grand Royal Greeting Card -->
+      <section class="w-full luxury-glass luxury-card-glow rounded-2xl sm:rounded-[2rem] p-4 sm:p-8 md:p-12 text-center relative overflow-hidden border border-gold-500/35 transition-all duration-300">
+        
+        <!-- Main Headline Typography with Virgo Zodiac Accent -->
+        <div id="main-headline-box" class="space-y-1 mb-2 sm:mb-5 animate-flip-3d flex flex-col items-center">
+          
+          <!-- Virgo Zodiac Symbol at Top of Happy Birthday -->
+          <div class="inline-flex items-center justify-center p-2 sm:p-2.5 rounded-full bg-gold-500/15 border border-gold-400/40 mb-1.5 sm:mb-2.5 shadow-lg shadow-gold-500/20 backdrop-blur-md animate-float-gentle cursor-default" title="Virgo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 sm:w-6 sm:h-6 text-gold-300 drop-shadow-[0_0_12px_rgba(212,175,55,0.8)]">
+              <path d="M3.5 4.5v10a2.5 2.5 0 0 0 5 0v-10" />
+              <path d="M8.5 4.5v10a2.5 2.5 0 0 0 5 0v-10" />
+              <path d="M13.5 4.5v11a2.5 2.5 0 0 0 4.8 1.1c.9-1.2.6-3-.7-3.8-1.2-.8-2.6-.2-3.1.7l3.5 6" />
+            </svg>
+          </div>
+
+          <h1 class="text-xs sm:text-base md:text-xl font-cinzel font-semibold tracking-widest text-slate-200 uppercase text-shadow-glow">
+            Happy Birthday
+          </h1>
+          
+          <!-- Recipient Name in Signature Calligraphy -->
+          <div class="py-0.5 sm:py-1 px-1 overflow-hidden">
+            <span id="display-name" class="font-script fluid-hero-name text-gold-gradient inline-block leading-none filter drop-shadow-2xl select-all">
+              Fawziya
+            </span>
+          </div>
+
+          <!-- Optional Milestone / Age Badge -->
+          <div id="display-age-badge" style="display: none;" class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-gold-500/15 border border-gold-400/30 text-gold-200 text-xs sm:text-sm font-cinzel tracking-wider mt-1">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-gold-400"></i>
+            <span>Celebrating <span id="display-age"></span> Wonderful Years</span>
+          </div>
+        </div>
+
+        <!-- Elegant Divider Line with Sparkle -->
+        <div class="flex items-center justify-center space-x-2.5 sm:space-x-4 my-2.5 sm:my-4 opacity-80">
+          <div class="h-[1px] w-10 sm:w-20 md:w-28 bg-gradient-to-r from-transparent to-gold-400"></div>
+          <i data-lucide="sparkle" class="w-3 h-3 sm:w-4 sm:h-4 text-gold-300 fill-gold-300 animate-pulse"></i>
+          <div class="h-[1px] w-10 sm:w-20 md:w-28 bg-gradient-to-l from-transparent to-gold-400"></div>
+        </div>
+
+        <!-- Heartfelt Celebration Message (Typewriter Effect) -->
+        <div class="max-w-xl mx-auto my-2 sm:my-4 px-1 sm:px-3 min-h-[3rem] flex items-center justify-center">
+          <p id="display-message" class="fluid-hero-message text-slate-100 font-serif italic font-normal text-shadow-glow"></p>
+        </div>
+
+        <!-- Sender Dedication Signature (Animated Typewriter Reveal) -->
+        <div id="sender-signature-box" class="mt-3 sm:mt-6 pt-1.5 sm:pt-2.5 flex flex-col items-center justify-center min-h-[3rem] opacity-0 transition-opacity duration-500">
+          <span id="display-love-label" class="text-[9px] sm:text-xs font-cinzel uppercase tracking-widest text-slate-300/80 mb-0.5 sm:mb-1 text-shadow-glow min-h-[1rem]"></span>
+          <div class="overflow-hidden py-0.5 px-3">
+            <span id="display-sender" class="font-script fluid-hero-sender text-gold-gradient text-shadow-glow inline-block"></span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Second Section: Heartfelt Birthday Message Box (Friendship Letter) -->
+      <section id="card2-section" class="w-full luxury-glass luxury-card-glow rounded-2xl sm:rounded-[2rem] p-4 sm:p-8 md:p-12 text-center relative overflow-hidden border border-gold-500/35">
+
+        <!-- Elegant Divider Line with Sparkle -->
+        <div class="flex items-center justify-center space-x-3 sm:space-x-4 mb-4 sm:mb-6 opacity-80">
+          <div class="h-[1px] w-12 sm:w-24 md:w-32 bg-gradient-to-r from-transparent to-gold-400"></div>
+          <i data-lucide="sparkle" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gold-300 fill-gold-300 animate-pulse"></i>
+          <div class="h-[1px] w-12 sm:w-24 md:w-32 bg-gradient-to-l from-transparent to-gold-400"></div>
+        </div>
+
+        <!-- Second Heartfelt Message Paragraphs -->
+        <div class="max-w-2xl mx-auto my-3 sm:my-5 px-1 sm:px-3 space-y-3 sm:space-y-4 text-slate-100 font-serif italic fluid-body-text leading-relaxed text-shadow-glow text-center sm:text-justify">
+          <p>
+            We haven’t known each other for very long, yet it feels as if you’ve been a part of my life for much longer. You became someone close to me without me even realizing it.
+          </p>
+          <p>
+            I truly enjoy all our little fights, random calls, silly conversations, and the small moments we share. Somehow, even the simplest things with you become memories I cherish.
+          </p>
+          <p>
+            Maybe it’s that Virgo side of you — the quietness, the overthinking, the attention to little things, and the way you care without always showing it. You have a way of making even ordinary moments feel special, and I genuinely love that about you.
+          </p>
+          <p>
+            I hope our friendship never fades with time. No matter how life changes or where we go, I hope you and I always stay connected and never become strangers. I hope that, no matter how much time passes, there will always be a little piece of our friendship that remains the same.
+          </p>
+        </div>
+
+        <!-- Closing Sign-off (Static Display with Shimmer Accent) -->
+        <div id="card2-signoff" class="mt-3 sm:mt-6 pt-1 sm:pt-2 flex flex-col items-center justify-center space-y-1.5">
+          <div class="overflow-hidden py-1 px-3">
+            <span id="sparkle-ziya-wish" class="font-script text-3xl sm:text-4xl md:text-5xl shimmer-text-sweep text-shadow-glow inline-block">
+              Happy Birthday, Ziya ✨
+            </span>
+          </div>
+          <span class="text-xs sm:text-sm font-sans text-gold-300 tracking-wide text-shadow-glow">
+            Stay happy, keep smiling
+          </span>
+        </div>
+      </section>
+
+      <!-- Third Section: Royal 3D Photo Album (Clean & Eye-Pleasing) -->
+      <section id="moments-story-section" class="w-full luxury-glass luxury-card-glow rounded-2xl sm:rounded-[2rem] p-4 sm:p-7 md:p-9 text-center relative overflow-hidden border border-gold-500/35 transition-all duration-300">
+
+        <!-- Header: Title & Meaningful Quote -->
+        <div class="space-y-1.5 mb-3 sm:mb-5 flex flex-col items-center">
+          <h2 class="font-script text-3xl sm:text-4xl md:text-5xl text-gold-gradient drop-shadow-md">
+            A Soul Full of Sunshine ✨
+          </h2>
+          
+          <p class="text-xs sm:text-sm font-serif italic text-slate-200/90 leading-relaxed tracking-wide max-w-xl mx-auto mt-1.5">
+            "Some people make the world brighter, warmer, and a whole lot more beautiful just by being in it. Your kindness, your smile, and the little things that make you who you are have a way of leaving beautiful memories wherever you go."
+          </p>
+        </div>
+
+        <!-- Elegant Divider Line with Sparkle -->
+        <div class="flex items-center justify-center space-x-3 sm:space-x-4 mb-4 sm:mb-6 opacity-80">
+          <div class="h-[1px] w-12 sm:w-24 md:w-32 bg-gradient-to-r from-transparent to-gold-400"></div>
+          <i data-lucide="sparkle" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gold-300 fill-gold-300 animate-pulse"></i>
+          <div class="h-[1px] w-12 sm:w-24 md:w-32 bg-gradient-to-l from-transparent to-gold-400"></div>
+        </div>
+
+        <!-- 3D Coverflow Perspective Gallery -->
+        <div class="coverflow-perspective-wrapper relative w-full flex flex-col items-center">
+          
+          <!-- 3D Coverflow Stage -->
+          <div id="coverflowStage" class="coverflow-stage relative w-full">
+            
+            <!-- Slide 1 -->
+            <div class="coverflow-card" data-index="0" data-full-src="photo1.jpg">
+              <div class="coverflow-card-inner">
+                <img src="photo1.jpg" alt="Fawziya" class="coverflow-img" loading="eager" />
+                <div class="story-photo-sheen"></div>
+              </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="coverflow-card" data-index="1" data-full-src="photo2.jpg">
+              <div class="coverflow-card-inner">
+                <img src="photo2.jpg" alt="Fawziya" class="coverflow-img" loading="lazy" />
+                <div class="story-photo-sheen"></div>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="coverflow-card" data-index="2" data-full-src="photo3.jpg">
+              <div class="coverflow-card-inner">
+                <img src="photo3.jpg" alt="Fawziya" class="coverflow-img" loading="lazy" />
+                <div class="story-photo-sheen"></div>
+              </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="coverflow-card" data-index="3" data-full-src="photo4.jpg">
+              <div class="coverflow-card-inner">
+                <img src="photo4.jpg" alt="Fawziya" class="coverflow-img" loading="lazy" />
+                <div class="story-photo-sheen"></div>
+              </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="coverflow-card" data-index="4" data-full-src="photo5.jpg">
+              <div class="coverflow-card-inner">
+                <img src="photo5.jpg" alt="Fawziya" class="coverflow-img" loading="lazy" />
+                <div class="story-photo-sheen"></div>
+              </div>
+            </div>
+
+            <!-- Slide 6 -->
+            <div class="coverflow-card" data-index="5" data-full-src="photo6.jpg">
+              <div class="coverflow-card-inner">
+                <img src="photo6.jpg" alt="Fawziya" class="coverflow-img" loading="lazy" />
+                <div class="story-photo-sheen"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Controls: Golden Arrow Buttons & Dots -->
+          <div class="coverflow-controls flex items-center justify-center gap-3 sm:gap-4 mt-3 sm:mt-5">
+            <button id="coverflowPrevBtn" class="album-nav-btn prev" aria-label="Previous Photo">
+              <span>‹</span>
+            </button>
+            <div id="coverflowDots" class="album-dots-container flex items-center gap-1.5">
+              <button class="album-dot active" data-index="0" aria-label="Photo 1"></button>
+              <button class="album-dot" data-index="1" aria-label="Photo 2"></button>
+              <button class="album-dot" data-index="2" aria-label="Photo 3"></button>
+              <button class="album-dot" data-index="3" aria-label="Photo 4"></button>
+              <button class="album-dot" data-index="4" aria-label="Photo 5"></button>
+              <button class="album-dot" data-index="5" aria-label="Photo 6"></button>
+            </div>
+            <button id="coverflowNextBtn" class="album-nav-btn next" aria-label="Next Photo">
+              <span>›</span>
+            </button>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- =========================================================
+         BALLOON CANOPY COVER WITH CONFIRMATION PROMPT
+         ========================================================= -->
+    <div id="balloonCanopyCover" class="balloon-canopy-cover">
+      <!-- Densely Packed Idle Floating Balloons Container -->
+      <div id="canopyBalloonsContainer" class="canopy-balloons-container"></div>
+
+      <!-- Glowing Centered Confirmation Card -->
+      <div class="release-btn-wrapper release-prompt-wrapper" id="releaseBtnWrapper">
+        <div class="release-prompt-card">
+          <div class="release-prompt-icon">🎈✨</div>
+          <h3 class="release-prompt-title">Are you sure you want to release the balloons?</h3>
+          <div class="release-prompt-actions">
+            <button id="releaseYesBtn" class="luxury-choice-btn btn-yes" aria-label="Yes, release the balloons">
+              <span class="choice-btn-icon">✓</span>
+              <span>Yes</span>
+            </button>
+            <button id="releaseNoBtn" class="luxury-choice-btn btn-no" aria-label="No, go back">
+              <span class="choice-btn-icon">✕</span>
+              <span>No</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================
+         LUXURY PHOTO LIGHTBOX MODAL (CLEAN & EYE-PLEASING)
+         ========================================================= -->
+    <div id="photoLightboxModal" class="photo-lightbox-modal hidden" role="dialog" aria-modal="true">
+      <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+      <div class="lightbox-container">
+        <button id="closeLightboxBtn" class="lightbox-close-btn" aria-label="Close photo view">✕</button>
+        <div class="lightbox-card">
+          <div class="lightbox-img-frame">
+            <img id="lightboxImg" src="" alt="Fawziya" class="lightbox-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
