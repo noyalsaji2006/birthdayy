@@ -1,0 +1,10 @@
+# Duplicate nested folder
+birthday-main/
+
+# Node modules
+node_modules/
+
+# OS / Temporary files
+.DS_Store
+Thumbs.db
+*.log

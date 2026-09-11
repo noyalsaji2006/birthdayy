@@ -180,58 +180,64 @@
     c.save();
     c.translate(x, y);
     if (rotation !== 0) c.rotate(rotation);
-    const s = size / 14;
+    const s = size / 16;
     c.scale(s, s);
     c.fillStyle = color;
     c.globalAlpha = Math.max(0, Math.min(1, alpha));
     c.beginPath();
-    c.moveTo(0, -4);
-    c.bezierCurveTo(-6, -10, -12, -4, -12, 2);
-    c.bezierCurveTo(-12, 8, -4, 12, 0, 16);
-    c.bezierCurveTo(4, 12, 12, 8, 12, 2);
-    c.bezierCurveTo(12, -4, 6, -10, 0, -4);
+    c.moveTo(0, -6);
+    c.bezierCurveTo(-3, -16, -16, -16, -16, -2);
+    c.bezierCurveTo(-16, 7, -3, 15, 0, 19);
+    c.bezierCurveTo(3, 15, 16, 7, 16, -2);
+    c.bezierCurveTo(16, -16, 3, -16, 0, -6);
     c.closePath();
     c.fill();
     c.restore();
   }
 
-  // Draw Radiant Red Heart Seed
+  // Draw Radiant 3D Red Heart Seed
   function drawHeartSeed(c, x, y, size, alpha, pulse = 1, rotation = 0) {
     c.save();
     c.translate(x, y);
     if (rotation !== 0) c.rotate(rotation);
-    const s = (size * pulse) / 14;
+    const s = (size * pulse) / 16;
     c.scale(s, s);
 
     // Glowing ruby-red halo
-    c.shadowColor = 'rgba(255, 23, 68, 0.95)';
-    c.shadowBlur = 26 * pulse;
+    c.shadowColor = 'rgba(255, 23, 68, 0.8)';
+    c.shadowBlur = 10 * pulse;
 
-    // Rich ruby-burgundy gradient
-    const grad = c.createRadialGradient(0, 0, 1, 0, 4, 14);
-    grad.addColorStop(0, '#FF4081');
+    // Rich 3D ruby gradient
+    const grad = c.createLinearGradient(-10, -16, 12, 18);
+    grad.addColorStop(0, '#FF5277');
     grad.addColorStop(0.35, '#FF1744');
     grad.addColorStop(0.7, '#D50000');
-    grad.addColorStop(1, '#67001F');
+    grad.addColorStop(1, '#6A0017');
 
     c.fillStyle = grad;
     c.globalAlpha = Math.max(0, Math.min(1, alpha));
 
+    // Crisp Heart Path
     c.beginPath();
-    c.moveTo(0, -4);
-    c.bezierCurveTo(-6, -10, -12, -4, -12, 2);
-    c.bezierCurveTo(-12, 8, -4, 12, 0, 16);
-    c.bezierCurveTo(4, 12, 12, 8, 12, 2);
-    c.bezierCurveTo(12, -4, 6, -10, 0, -4);
+    c.moveTo(0, -6);
+    c.bezierCurveTo(-3, -16, -16, -16, -16, -2);
+    c.bezierCurveTo(-16, 7, -3, 15, 0, 19);
+    c.bezierCurveTo(3, 15, 16, 7, 16, -2);
+    c.bezierCurveTo(16, -16, 3, -16, 0, -6);
     c.closePath();
     c.fill();
 
-    // Specular star shine highlight
+    // Elegant golden accent rim outline for sharp heart definition
+    c.strokeStyle = 'rgba(255, 225, 130, 0.85)';
+    c.lineWidth = 1.0;
+    c.stroke();
+
+    // Glossy glass specular shine on the upper lobe
     c.beginPath();
-    c.arc(-3.8, -1.2, 2.2, 0, Math.PI * 2);
-    c.fillStyle = 'rgba(255, 255, 255, 0.9)';
-    c.shadowColor = '#FFFDF0';
-    c.shadowBlur = 8;
+    c.ellipse(-7, -7, 4.8, 2.4, -Math.PI / 4, 0, Math.PI * 2);
+    c.fillStyle = 'rgba(255, 255, 255, 0.65)';
+    c.shadowColor = 'transparent';
+    c.shadowBlur = 0;
     c.fill();
 
     c.restore();
@@ -664,26 +670,26 @@
                 arrowBtnContainer.classList.add('visible');
               }, 2900);
             } else {
-              // Smooth natural gravity acceleration with delicate sway
-              const easeT = Math.pow(seed.progress, 1.85);
-              const sway = Math.sin(seed.progress * Math.PI * 3.5) * (14 * (1 - seed.progress));
+              // Smooth, gentle descending motion with graceful floating sway
+              const easeT = Math.pow(seed.progress, 1.35);
+              const sway = Math.sin(seed.progress * Math.PI * 4) * (26 * Math.sin(seed.progress * Math.PI));
               seed.x = seed.startX + (seed.targetX - seed.startX) * seed.progress + sway;
               seed.y = seed.startY + (seed.targetY - seed.startY) * easeT;
 
-              // Sparkle trail while falling
+              // Stardust and mini glowing heart trail behind the descending heart
               seed.trailTimer += dt;
-              if (seed.trailTimer > 0.024) {
+              if (seed.trailTimer > 0.028) {
                 seed.trailTimer = 0;
                 seedSparks.push({
-                  x: seed.x + (Math.random() - 0.5) * 6,
-                  y: seed.y + (Math.random() - 0.5) * 6,
-                  vx: (Math.random() - 0.5) * 0.8,
-                  vy: -0.6 - Math.random() * 1.2,
-                  size: 2.5 + Math.random() * 3.5,
-                  color: ['#FF1744', '#FF4081', '#D4AF37', '#FFFDF0'][Math.floor(Math.random() * 4)],
-                  alpha: 0.9,
-                  decay: 0.035 + Math.random() * 0.02,
-                  isHeart: Math.random() < 0.35
+                  x: seed.x + (Math.random() - 0.5) * 8,
+                  y: seed.y + (Math.random() - 0.5) * 8,
+                  vx: (Math.random() - 0.5) * 0.7,
+                  vy: -0.3 - Math.random() * 0.9,
+                  size: 3.5 + Math.random() * 4.5,
+                  color: ['#FF1744', '#FF4081', '#FFD700', '#FFFDF0', '#FF80AB'][Math.floor(Math.random() * 5)],
+                  alpha: 0.95,
+                  decay: 0.022 + Math.random() * 0.018,
+                  isHeart: Math.random() < 0.55
                 });
               }
             }
@@ -733,8 +739,8 @@
 
         // 4. Render Glowing Red Heart Seed
         if (seed) {
-          const seedPulse = seed.planted ? (1 + Math.sin(globalTime * 4.5) * 0.14) : 1;
-          const seedRot = seed.planted ? 0 : Math.sin(seed.progress * Math.PI * 4) * 0.18;
+          const seedPulse = seed.planted ? (1 + Math.sin(globalTime * 4.5) * 0.14) : (1 + Math.sin(globalTime * 6) * 0.09);
+          const seedRot = seed.planted ? 0 : Math.cos(seed.progress * Math.PI * 4) * 0.22;
           drawHeartSeed(treeCtx, seed.x, seed.y, seed.size, seed.alpha, seedPulse, seedRot);
         }
 
@@ -1823,8 +1829,8 @@
         x: startX,
         y: startY,
         progress: 0,
-        duration: 1.15, // 1.15s smooth natural gravity drop
-        size: isMobile ? 18 : 22,
+        duration: 2.85, // Smooth slow graceful descent (~2.85s)
+        size: isMobile ? 12 : 15, // Cute, delicate small heart seed
         planted: false,
         pulse: 1,
         alpha: 1,
@@ -1832,23 +1838,444 @@
       };
 
       // Sparkles at the button click point
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 28; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const spd = 1.0 + Math.random() * 3.2;
+        const spd = 1.0 + Math.random() * 3.5;
         seedSparks.push({
           x: startX,
           y: startY,
           vx: Math.cos(angle) * spd,
           vy: Math.sin(angle) * spd,
-          size: 2.5 + Math.random() * 3.5,
-          color: ['#FF1744', '#FF4081', '#D4AF37', '#FFFDF0'][Math.floor(Math.random() * 4)],
+          size: 3.0 + Math.random() * 4.0,
+          color: ['#FF1744', '#FF4081', '#FFD700', '#FFFDF0', '#FF80AB'][Math.floor(Math.random() * 5)],
           alpha: 1,
-          decay: 0.03 + Math.random() * 0.02,
-          isHeart: Math.random() < 0.4
+          decay: 0.024 + Math.random() * 0.02,
+          isHeart: Math.random() < 0.5
         });
       }
 
       startScreen.classList.add('fade-out');
+    });
+  }
+
+  // ============================================================
+  // ROYAL BIRTHDAY GIFT SURPRISE & PRANK INTERACTION
+  // ============================================================
+  const giftStage1 = document.getElementById('giftStage1');
+  const giftStage2 = document.getElementById('giftStage2');
+  const giftStageNoResponse = document.getElementById('giftStageNoResponse');
+  const giftStageWishInput = document.getElementById('giftStageWishInput');
+  const giftStageLetterAnim = document.getElementById('giftStageLetterAnim');
+  const giftStageSuccess = document.getElementById('giftStageSuccess');
+
+  const letterEnvelope3D = document.getElementById('letterEnvelope3D');
+  const parchmentLetter = document.getElementById('parchmentLetter');
+  const parchmentWishText = document.getElementById('parchmentWishText');
+  const envelopeTopFlap = document.getElementById('envelopeTopFlap');
+  const waxSealStamp = document.getElementById('waxSealStamp');
+  const waxSealShockwave = document.getElementById('waxSealShockwave');
+  const letterAnimStatusText = document.getElementById('letterAnimStatusText');
+
+  const giftYesBtn1 = document.getElementById('giftYesBtn1');
+  const giftNoBtn1 = document.getElementById('giftNoBtn1');
+
+  const giftYesBtn2 = document.getElementById('giftYesBtn2');
+  const giftNoBtn2 = document.getElementById('giftNoBtn2');
+  const giftGoToWishBtn = document.getElementById('giftGoToWishBtn');
+
+  const giftWishInput = document.getElementById('giftWishInput');
+  const giftSubmitBtn = document.getElementById('giftSubmitBtn');
+  const giftSavedWishText = document.getElementById('giftSavedWishText');
+  const giftEditWishBtn = document.getElementById('giftEditWishBtn');
+
+  function showGiftStage(targetStage) {
+    const allStages = [giftStage1, giftStage2, giftStageNoResponse, giftStageWishInput, giftStageLetterAnim, giftStageSuccess];
+    allStages.forEach(stage => {
+      if (stage) {
+        if (stage === targetStage) {
+          stage.classList.remove('hidden');
+          stage.classList.add('flex');
+          stage.style.opacity = '0';
+          stage.style.transform = 'translateY(12px) scale(0.98)';
+          requestAnimationFrame(() => {
+            stage.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+            stage.style.opacity = '1';
+            stage.style.transform = 'translateY(0) scale(1)';
+          });
+        } else {
+          stage.classList.add('hidden');
+          stage.classList.remove('flex');
+        }
+      }
+    });
+  }
+
+  // Load saved wish if exists
+  const savedWish = localStorage.getItem('fawziya_birthday_wish');
+  if (savedWish && giftSavedWishText) {
+    giftSavedWishText.textContent = `"${savedWish}"`;
+  }
+
+  // STAGE 1: Prank "Yes" Click -> "No" grows on clicks 1 & 2, and auto-clicks on click 3!
+  let yesClickCount = 0;
+  let isPrankRunning = false;
+  if (giftYesBtn1 && giftNoBtn1) {
+    giftYesBtn1.addEventListener('click', () => {
+      if (isPrankRunning) return;
+      yesClickCount++;
+
+      if (yesClickCount === 1) {
+        // Click 1: No grows bigger, Yes shrinks slightly
+        giftNoBtn1.style.transform = 'scale(1.35)';
+        giftYesBtn1.style.transform = 'scale(0.9)';
+      } else if (yesClickCount === 2) {
+        // Click 2: No grows even bigger with golden glow, Yes shrinks more
+        giftNoBtn1.classList.add('btn-grow-huge');
+        giftNoBtn1.style.transform = 'scale(1.65)';
+        giftYesBtn1.style.transform = 'scale(0.78)';
+        if (typeof confetti === 'function') {
+          const rect = giftNoBtn1.getBoundingClientRect();
+          const x = (rect.left + rect.width / 2) / window.innerWidth;
+          const y = (rect.top + rect.height / 2) / window.innerHeight;
+          confetti({
+            particleCount: 15,
+            spread: 35,
+            origin: { x, y },
+            colors: ['#D4AF37', '#FF1744', '#FFF8DC']
+          });
+        }
+      } else if (yesClickCount >= 3) {
+        // Click 3: No takes over completely and auto-clicks!
+        isPrankRunning = true;
+        giftYesBtn1.classList.add('btn-shrink-away');
+        giftNoBtn1.style.transform = 'scale(1.95)';
+
+        if (typeof confetti === 'function') {
+          const rect = giftNoBtn1.getBoundingClientRect();
+          const x = (rect.left + rect.width / 2) / window.innerWidth;
+          const y = (rect.top + rect.height / 2) / window.innerHeight;
+          confetti({
+            particleCount: 35,
+            spread: 55,
+            origin: { x, y },
+            colors: ['#D4AF37', '#FF1744', '#FFF8DC']
+          });
+        }
+
+        setTimeout(() => {
+          showGiftStage(giftStage2);
+          isPrankRunning = false;
+          yesClickCount = 0;
+          giftYesBtn1.classList.remove('btn-shrink-away');
+          giftYesBtn1.style.transform = '';
+          giftNoBtn1.classList.remove('btn-grow-huge');
+          giftNoBtn1.style.transform = '';
+        }, 700);
+      }
+    });
+
+    // If user clicks "No" directly on Stage 1
+    giftNoBtn1.addEventListener('click', () => {
+      if (isPrankRunning) return;
+      showGiftStage(giftStage2);
+    });
+  }
+
+  // STAGE 2: "Ohh How Sweet" Popup Stage
+  if (giftYesBtn2) {
+    giftYesBtn2.addEventListener('click', () => {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 65,
+          spread: 70,
+          origin: { y: 0.65 },
+          colors: ['#FF1744', '#FF4081', '#D4AF37', '#FFFDF0']
+        });
+      }
+      showGiftStage(giftStageWishInput);
+    });
+  }
+
+  if (giftNoBtn2) {
+    giftNoBtn2.addEventListener('click', () => {
+      // User clicked "No" on stage 2 -> "Ethavana pattikkilla!"
+      showGiftStage(giftStageNoResponse);
+    });
+  }
+
+  if (giftGoToWishBtn) {
+    giftGoToWishBtn.addEventListener('click', () => {
+      showGiftStage(giftStageWishInput);
+    });
+  }
+
+  // STAGE 4: Dynamic Gift Option Chips Loader & Interactive Selection
+  const defaultGiftList = [
+    { id: 'teddy', label: 'Teddy', emoji: '🧸' },
+    { id: 'ferrero', label: 'Ferrero Rocher', emoji: '🍫' },
+    { id: 'bubble_tea', label: 'Bubble Tea', emoji: '🧋' },
+    { id: 'ice_cream', label: 'Ice Cream', emoji: '🍨' },
+    { id: 'pastry', label: 'Pastry', emoji: '🧁' },
+    { id: 'book', label: 'Book', emoji: '📚' },
+    { id: 'lipstick', label: 'Lipstick', emoji: '💄' }
+  ];
+
+  function attachChipEventListener(chip) {
+    chip.addEventListener('click', () => {
+      const giftType = chip.getAttribute('data-gift');
+      if (giftType === 'custom') {
+        chip.classList.toggle('selected');
+        if (giftWishInput) {
+          giftWishInput.focus();
+        }
+      } else {
+        chip.classList.toggle('selected');
+      }
+
+      // Little sparkling pop on chip selection
+      if (typeof confetti === 'function' && chip.classList.contains('selected')) {
+        const rect = chip.getBoundingClientRect();
+        const x = (rect.left + rect.width / 2) / window.innerWidth;
+        const y = (rect.top + rect.height / 2) / window.innerHeight;
+        confetti({
+          particleCount: 15,
+          spread: 35,
+          origin: { x, y },
+          colors: ['#FF1744', '#D4AF37', '#FFFDF0']
+        });
+      }
+    });
+  }
+
+  async function loadDynamicGiftOptions() {
+    const chipsContainer = document.getElementById('giftOptionChips');
+    if (!chipsContainer) return;
+
+    let gifts = defaultGiftList;
+    try {
+      const res = await fetch('/api/gifts');
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          gifts = data;
+          localStorage.setItem('birthday_gift_options_cache', JSON.stringify(gifts));
+        }
+      }
+    } catch (e) {
+      console.warn('Using cached or default gifts:', e);
+      try {
+        const cached = localStorage.getItem('birthday_gift_options_cache');
+        if (cached) gifts = JSON.parse(cached);
+      } catch (err) {}
+    }
+
+    chipsContainer.innerHTML = '';
+    gifts.forEach(gift => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'gift-option-chip';
+      const fullLabel = `${gift.label} ${gift.emoji}`;
+      btn.setAttribute('data-gift', fullLabel);
+      btn.innerHTML = `<span>${gift.emoji || '🎁'}</span><span>${gift.label}</span>`;
+      attachChipEventListener(btn);
+      chipsContainer.appendChild(btn);
+    });
+
+    // Append Custom Wish Button
+    const customBtn = document.createElement('button');
+    customBtn.type = 'button';
+    customBtn.id = 'giftCustomOptionChip';
+    customBtn.className = 'gift-option-chip';
+    customBtn.setAttribute('data-gift', 'custom');
+    customBtn.innerHTML = `<span>✍️</span><span>Njan Parayaam... 💌</span>`;
+    attachChipEventListener(customBtn);
+    chipsContainer.appendChild(customBtn);
+  }
+
+  loadDynamicGiftOptions();
+
+  // =========================================================
+  // SUPABASE DATABASE INTEGRATION FOR BIRTHDAY WISHES
+  // =========================================================
+  const SUPABASE_CONFIG = {
+    url: 'https://glngacqixzgjnivlkptk.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdsbmdhY3FpeHpnam5pdmxrcHRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNTU3MDQsImV4cCI6MjEwNDYzMTcwNH0.mEsjNv2A1ROKw_6Ry8hHBe0IFr426MQWIjUYp8WnhP8'
+  };
+
+  let supabaseClient = null;
+  function getSupabaseClient() {
+    if (!supabaseClient && typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+      if (SUPABASE_CONFIG.url && !SUPABASE_CONFIG.url.includes('YOUR_PROJECT_ID') && SUPABASE_CONFIG.anonKey && !SUPABASE_CONFIG.anonKey.includes('YOUR_SUPABASE_ANON_KEY')) {
+        try {
+          supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+        } catch (e) {
+          console.warn('Supabase init warning:', e);
+        }
+      }
+    }
+    return supabaseClient;
+  }
+
+  async function saveWishToSupabase(fullWish, selectedGifts, customMessage) {
+    const client = getSupabaseClient();
+    if (!client) {
+      console.log('ℹ️ Supabase keys not set yet. Wish safely recorded in localStorage.');
+      return;
+    }
+    try {
+      const { data, error } = await client
+        .from('birthday_wishes')
+        .insert([
+          {
+            recipient_name: 'Fawziya',
+            selected_gift: selectedGifts.length > 0 ? selectedGifts.join(', ') : 'None',
+            custom_wish: customMessage || 'None',
+            full_wish: fullWish,
+            device_info: `${navigator.userAgent}`
+          }
+        ]);
+      if (error) {
+        console.error('❌ Supabase Save Error:', error);
+      } else {
+        console.log('✅ Wish successfully saved to Supabase! 💌✨', data);
+      }
+    } catch (err) {
+      console.error('❌ Supabase Network Error:', err);
+    }
+  }
+
+  if (giftSubmitBtn && giftWishInput) {
+    giftSubmitBtn.addEventListener('click', () => {
+      const selectedChips = Array.from(document.querySelectorAll('.gift-option-chip.selected'))
+        .map(c => c.getAttribute('data-gift'))
+        .filter(g => g !== 'custom');
+      
+      const customWish = giftWishInput.value.trim();
+
+      if (selectedChips.length === 0 && !customWish) {
+        const chipsContainer = document.getElementById('giftOptionChips');
+        if (chipsContainer) {
+          chipsContainer.classList.add('animate-pulse');
+          setTimeout(() => chipsContainer.classList.remove('animate-pulse'), 1000);
+        }
+        giftWishInput.focus();
+        giftWishInput.classList.add('ring-2', 'ring-rose-500');
+        setTimeout(() => giftWishInput.classList.remove('ring-2', 'ring-rose-500'), 1200);
+        return;
+      }
+
+      let fullWishSummary = '';
+      if (selectedChips.length > 0 && customWish) {
+        fullWishSummary = `${selectedChips.join(', ')} + "${customWish}"`;
+      } else if (selectedChips.length > 0) {
+        fullWishSummary = selectedChips.join(', ');
+      } else {
+        fullWishSummary = customWish;
+      }
+
+      // Save wish to local storage
+      localStorage.setItem('fawziya_birthday_wish', fullWishSummary);
+      if (giftSavedWishText) {
+        giftSavedWishText.textContent = `"${fullWishSummary}"`;
+      }
+
+      // Save wish to Supabase Database
+      saveWishToSupabase(fullWishSummary, selectedChips, customWish);
+
+      // Prepare Parchment Content
+      if (parchmentWishText) {
+        parchmentWishText.textContent = fullWishSummary;
+      }
+
+      // Reset Letter Animation Classes
+      if (parchmentLetter) parchmentLetter.classList.remove('slid-inside');
+      if (envelopeTopFlap) envelopeTopFlap.classList.remove('flap-closed');
+      if (waxSealStamp) waxSealStamp.classList.remove('stamped');
+      if (waxSealShockwave) waxSealShockwave.classList.remove('shockwave-active');
+      if (letterEnvelope3D) {
+        letterEnvelope3D.classList.remove('fly-away-sky');
+        letterEnvelope3D.style.transform = '';
+      }
+
+      // Show Letter Animation Stage
+      showGiftStage(giftStageLetterAnim);
+      if (letterAnimStatusText) {
+        letterAnimStatusText.textContent = "Writing your birthday wish... 📜✨";
+      }
+
+      // 1. Parchment slides into the envelope
+      setTimeout(() => {
+        if (parchmentLetter) parchmentLetter.classList.add('slid-inside');
+        if (letterAnimStatusText) letterAnimStatusText.textContent = "Folding your wish into the envelope... 💌";
+      }, 750);
+
+      // 2. Envelope top flap folds down
+      setTimeout(() => {
+        if (envelopeTopFlap) envelopeTopFlap.classList.add('flap-closed');
+        if (letterAnimStatusText) letterAnimStatusText.textContent = "Sealing with Wax Stamp... 💌✨";
+      }, 1650);
+
+      // 3. Wax seal stamps down with shockwave
+      setTimeout(() => {
+        if (waxSealStamp) waxSealStamp.classList.add('stamped');
+        if (waxSealShockwave) waxSealShockwave.classList.add('shockwave-active');
+        if (letterAnimStatusText) letterAnimStatusText.textContent = "Sealed with Birthday Wish! 💌💖✨";
+
+        if (typeof confetti === 'function' && waxSealStamp) {
+          const rect = waxSealStamp.getBoundingClientRect();
+          const x = (rect.left + rect.width / 2) / window.innerWidth;
+          const y = (rect.top + rect.height / 2) / window.innerHeight;
+          confetti({
+            particleCount: 25,
+            spread: 50,
+            origin: { x, y },
+            colors: ['#FF1744', '#D4AF37', '#FFFDF0', '#FF4081']
+          });
+        }
+      }, 2350);
+
+      // 4. Envelope floats & flies into the starry sky
+      setTimeout(() => {
+        if (letterEnvelope3D) letterEnvelope3D.classList.add('fly-away-sky');
+        if (letterAnimStatusText) letterAnimStatusText.textContent = "Sending birthday wish to the stars... 🚀✨";
+
+        for (let i = 0; i < 3; i++) {
+          setTimeout(() => {
+            if (typeof confetti === 'function') {
+              confetti({
+                particleCount: 20,
+                spread: 40,
+                origin: { x: 0.55 + (i * 0.05), y: 0.5 - (i * 0.12) },
+                colors: ['#D4AF37', '#FFDF73', '#FFFDF0', '#FF80AB']
+              });
+            }
+          }, i * 250);
+        }
+      }, 3100);
+
+      // 5. Grand Confetti & Reveal Success Stage
+      setTimeout(() => {
+        if (typeof confetti === 'function') {
+          confetti({
+            particleCount: 120,
+            spread: 90,
+            origin: { y: 0.6 },
+            colors: ['#FF1744', '#FF4081', '#FFD700', '#FFFDF0', '#FF80AB']
+          });
+        }
+        showGiftStage(giftStageSuccess);
+      }, 4400);
+
+    });
+  }
+
+  // Edit Wish Handler
+  if (giftEditWishBtn && giftWishInput) {
+    giftEditWishBtn.addEventListener('click', () => {
+      showGiftStage(giftStageWishInput);
+      if (giftWishInput) {
+        giftWishInput.focus();
+      }
     });
   }
 

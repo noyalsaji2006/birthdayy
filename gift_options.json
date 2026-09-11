@@ -1,0 +1,37 @@
+[
+  {
+    "id": "teddy",
+    "label": "Teddy",
+    "emoji": "🧸"
+  },
+  {
+    "id": "ferrero",
+    "label": "Ferrero Rocher",
+    "emoji": "🍫"
+  },
+  {
+    "id": "bubble_tea",
+    "label": "Bubble Tea",
+    "emoji": "🧋"
+  },
+  {
+    "id": "ice_cream",
+    "label": "Ice Cream",
+    "emoji": "🍨"
+  },
+  {
+    "id": "pastry",
+    "label": "Pastry",
+    "emoji": "🧁"
+  },
+  {
+    "id": "book",
+    "label": "Book",
+    "emoji": "📚"
+  },
+  {
+    "id": "lipstick",
+    "label": "Lipstick",
+    "emoji": "💄"
+  }
+]
